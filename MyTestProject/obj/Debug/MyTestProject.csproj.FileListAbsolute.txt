@@ -1,0 +1,5 @@
+F:\Documents\GitHub\SchoolarSearcher\MyTestProject\bin\Debug\MyTestProject.exe
+F:\Documents\GitHub\SchoolarSearcher\MyTestProject\bin\Debug\MyTestProject.pdb
+F:\Documents\GitHub\SchoolarSearcher\MyTestProject\obj\Debug\MyTestProject.csprojResolveAssemblyReference.cache
+F:\Documents\GitHub\SchoolarSearcher\MyTestProject\obj\Debug\MyTestProject.exe
+F:\Documents\GitHub\SchoolarSearcher\MyTestProject\obj\Debug\MyTestProject.pdb

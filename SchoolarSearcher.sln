@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quotes", "Quotes\Quotes.csproj", "{9347F4C6-EF9C-4801-897F-0BD405F72355}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyTestProject", "MyTestProject\MyTestProject.csproj", "{FC7CA22D-B003-470E-A190-D7D0004A8005}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelToCsv", "ExcelToCsv\ExcelToCsv.csproj", "{722875D7-38C8-4F4B-BF40-D04BE670AB86}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9347F4C6-EF9C-4801-897F-0BD405F72355}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9347F4C6-EF9C-4801-897F-0BD405F72355}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9347F4C6-EF9C-4801-897F-0BD405F72355}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9347F4C6-EF9C-4801-897F-0BD405F72355}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC7CA22D-B003-470E-A190-D7D0004A8005}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC7CA22D-B003-470E-A190-D7D0004A8005}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC7CA22D-B003-470E-A190-D7D0004A8005}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC7CA22D-B003-470E-A190-D7D0004A8005}.Release|Any CPU.Build.0 = Release|Any CPU
+		{722875D7-38C8-4F4B-BF40-D04BE670AB86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{722875D7-38C8-4F4B-BF40-D04BE670AB86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{722875D7-38C8-4F4B-BF40-D04BE670AB86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{722875D7-38C8-4F4B-BF40-D04BE670AB86}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,2 @@
+<div id="gs_cit0" tabindex="0" class="gs_citr">.*?</div></td></tr>
+<a onclick="return gs_ocit\(event,'\w*','0'\)" href="#" class="gs_nph" role="button" aria-controls="gs_cit" aria-haspopup="true">าýำร</a>
