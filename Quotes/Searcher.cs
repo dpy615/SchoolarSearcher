@@ -612,11 +612,12 @@ namespace Quotes {
             }
             quote = quote.Replace("sc_GBT7714\":\"", "");
 
-            if (titles[2].Trim().ToUpper() == "J") {
+            string type = quote.Substring(quote.IndexOf("[") + 1, quote.IndexOf("]") - quote.IndexOf("[") - 1).Trim();
+            if (type.Trim().ToUpper() == "J") {
                 return Deal_J(quote, titles, list);
-            } else if (titles[2].Trim().ToUpper() == "M") {
+            } else if (type.Trim().ToUpper() == "M") {
                 return Deal_M(quote, titles, list);
-            } else if (titles[2].Trim().ToUpper() == "C") {
+            } else if (type.Trim().ToUpper() == "C") {
                 return Deal_C(quote, titles, list);
             } else {
                 return Deal_J(quote, titles, list);
