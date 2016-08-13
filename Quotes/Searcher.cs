@@ -173,48 +173,88 @@ namespace Quotes {
             title = quote.Substring(quote.IndexOf(".") + 1, quote.IndexOf("[") - quote.IndexOf(".") - 1).Trim();
             type = quote.Substring(quote.IndexOf("[") + 1, quote.IndexOf("]") - quote.IndexOf("[") - 1).Trim();
 
-            quote = quote.Replace("//", ".").Replace("\\/\\/", ".");
+            //quote = quote.Replace("//", ".").Replace("\\/\\/", ".");
             string strn = quote.Substring(quote.IndexOf(".") + 1);
             while (strn.Contains("[")) {
                 strn = strn.Substring(strn.IndexOf(".") + 1);
             }
             string[] jours = strn.Split(',');
+            if (strn.Contains(':')) {
+                page = strn.Split(':')[1];
+                if (page.Length > 1) {
+                    page = page.Substring(0, page.Length - 1);
+                }
+            }
+            if (strn.Contains('(')) {
+                mag = strn.Substring(strn.IndexOf("(") + 1, strn.IndexOf(")") - strn.IndexOf("(") - 1);
+            }
             if (jours.Length == 1) {
                 if (jours[0].Contains(":")) {
                     year = jours[0].Split(':')[0];
-                    page = jours[0].Split(':')[1];
+                    //page = jours[0].Split(':')[1];
                 } else {
                     jour = jours[0].Trim();
+                }
+                int tmpjour = 0;
+                bool b = int.TryParse(jour.Replace(".", ""), out tmpjour);
+                if (b) {
+                    year = tmpjour.ToString();
+                    jour = "";
                 }
             } else {
                 jour = jours[0].Trim();
                 year = jours[1].Trim();
+                if (year.Contains('(')) {
+                    year = year.Substring(0, year.IndexOf('('));
+                } else if (year.Contains(':')) {
+                    year = year.Substring(0, year.IndexOf(':'));
+                }
                 if (jours.Length > 2) {
                     if (jours[2].Contains(":")) {
                         if (jours[2].Contains("(")) {
                             volume = jours[2].Substring(0, jours[2].IndexOf("("));
-                            mag = jours[2].Substring(jours[2].IndexOf("(") + 1, jours[2].IndexOf(")") - jours[2].IndexOf("(") - 1);
                         } else {
                             volume = jours[2].Substring(0, jours[2].IndexOf(":")).Trim();
                         }
-                        page = jours[2].Substring(jours[2].IndexOf(":") + 1).Trim().Replace(".", "");
+                        // page = jours[2].Substring(jours[2].IndexOf(":") + 1).Trim().Replace(".", "");
                     } else {
                         if (jours[2].Contains("(")) {
                             volume = jours[2].Substring(0, jours[2].IndexOf("("));
-                            mag = jours[2].Substring(jours[2].IndexOf("(") + 1, jours[2].IndexOf(")") - jours[2].IndexOf("(") - 1);
+                            //mag = jours[2].Substring(jours[2].IndexOf("(") + 1, jours[2].IndexOf(")") - jours[2].IndexOf("(") - 1);
                         } else {
                             volume = jours[2];
                         }
                     }
                 }
             }
-            list.Add(MatchValue(title, titles[7]).ToString());
-            list.Add(year.Equals(titles[9]) ? "1" : "0");
-            list.Add(type.Equals(titles[2]) ? "1" : "0");
-            list.Add(auther0.Equals(titles[4]) ? "1" : "0");
-            return "\"" + quote + "\",\"" + auther0 + "\",\"" + auther1 + "\",\"" + auther2 + "\",\"" + title + "\",\"" + type + "\",\"" + jour + "\",\"" + year + "\",\"" + volume + "\",\"" + mag + "\",\"" + page + "\",\"" + publisher + "\",\"" + place + "\"";
+            TakeList(titles, list, auther0, title, type, jour, year, volume, mag, page);
+
+            return ToResoultStr(quote, auther0, auther1, auther2, title, type, jour, year, volume, mag, page, publisher, place);
 
         }
+
+        private static void TakeList(string[] titles, List<string> list, string auther0, string title, string type, string jour, string year, string volume, string mag, string page) {
+            list.Add(MatchValue(UnicodeToString(title), titles[7]).ToString());
+            list.Add(UnicodeToString(type.Equals(titles[2]) ? "1" : "0"));
+            list.Add(UnicodeToString(auther0).Equals(titles[4]) ? "1" : "0");
+            list.Add(UnicodeToString(jour).Equals(titles[8]) ? "1" : "0");
+            list.Add(UnicodeToString(year.Equals(titles[9]) ? "1" : "0"));
+            int tmp = 0;
+            bool b = int.TryParse(volume, out tmp);
+            if (b) {
+                volume = tmp.ToString();
+            }
+            list.Add(UnicodeToString(volume.Equals(titles[10]) ? "1" : "0"));
+
+            tmp = 0;
+            b = int.TryParse(mag, out tmp);
+            if (b) {
+                mag = tmp.ToString();
+            }
+            list.Add(UnicodeToString(mag.Equals(titles[11]) ? "1" : "0"));
+            list.Add(UnicodeToString(page.Equals(titles[12]) ? "1" : "0"));
+        }
+
 
         /// <summary>
         /// Lamarca A, Chawathe Y, Consolvo S, et al. Place Lab: Device Positioning Using Radio Beacons in the Wild[M]// Pervasive Computing. Springer Berlin Heidelberg, 2005:116--133.
@@ -259,28 +299,32 @@ namespace Quotes {
             while (strn.Contains("[")) {
                 strn = strn.Substring(strn.IndexOf(".") + 1);
             }
+            if (strn.Contains(':')) {
+                page = strn.Split(':')[1];
+                if (page.Length > 1) {
+                    page = page.Substring(0, page.Length - 1);
+                }
+            }
             string[] jours = strn.Split(',');
             if (jours.Length == 1) {
 
             } else {
                 string tmp = jours[0].Trim();
+
                 if (tmp.Contains(".")) {
                     jour = tmp.Split('.')[0];
                     publisher = tmp.Split('.')[1];
                 }
-                tmp = jours[1].Trim();
-                if (tmp.Contains(":")) {
-                    year = tmp.Split(':')[0].Trim();
-                    page = tmp.Split(':')[1].Trim().Replace(".", "");
-                } else {
-                    year = tmp.Trim().Replace(".", "");
+                year = jours[1].Trim();
+                if (year.Contains('(')) {
+                    year = year.Substring(0, year.IndexOf('('));
+                } else if (year.Contains(':')) {
+                    year = year.Substring(0, year.IndexOf(':'));
                 }
+
             }
-            list.Add(MatchValue(title, titles[7]).ToString());
-            list.Add(year.Equals(titles[9]) ? "1" : "0");
-            list.Add(type.Equals(titles[2]) ? "1" : "0");
-            list.Add(auther0.Equals(titles[4]) ? "1" : "0");
-            return "\"" + quote + "\",\"" + auther0 + "\",\"" + auther1 + "\",\"" + auther2 + "\",\"" + title + "\",\"" + type + "\",\"" + jour + "\",\"" + year + "\",\"" + volume + "\",\"" + mag + "\",\"" + page + "\",\"" + publisher + "\",\"" + place + "\"";
+            TakeList(titles, list, auther0, title, type, jour, year, volume, mag, page);
+            return ToResoultStr(quote, auther0, auther1, auther2, title, type, jour, year, volume, mag, page, publisher, place);
 
         }
 
@@ -313,7 +357,6 @@ namespace Quotes {
                 return "无引用";
             }
 
-
             string[] auther = authers.Split(',');
             auther0 = auther[0];
             if (auther.Length > 1) auther1 = auther[1];
@@ -327,6 +370,12 @@ namespace Quotes {
             while (strn.Contains("[")) {
                 strn = strn.Substring(strn.IndexOf(".") + 1);
             }
+            if (strn.Contains(':')) {
+                page = strn.Split(':')[1];
+                if (page.Length > 1) {
+                    page = page.Substring(0, page.Length - 1);
+                }
+            }
             string[] jours = strn.Split(',');
             if (jours.Length == 1) {
 
@@ -336,20 +385,21 @@ namespace Quotes {
                     jour = tmp.Split('.')[0];
                     publisher = tmp.Split('.')[1];
                 }
-                tmp = jours[1].Trim();
-                if (tmp.Contains(":")) {
-                    year = tmp.Split(':')[0].Trim();
-                    page = tmp.Split(':')[1].Trim().Replace(".", "");
-                } else {
-                    year = tmp.Trim().Replace(".", "");
+                year = jours[1].Trim();
+                if (year.Contains('(')) {
+                    year = year.Substring(0, year.IndexOf('('));
+                } else if (year.Contains(':')) {
+                    year = year.Substring(0, year.IndexOf(':'));
                 }
             }
-            list.Add(MatchValue(title, titles[7]).ToString());
-            list.Add(year.Equals(titles[9]) ? "1" : "0");
-            list.Add(type.Equals(titles[2]) ? "1" : "0");
-            list.Add(auther0.Equals(titles[4]) ? "1" : "0");
-            return "\"" + quote + "\",\"" + auther0 + "\",\"" + auther1 + "\",\"" + auther2 + "\",\"" + title + "\",\"" + type + "\",\"" + jour + "\",\"" + year + "\",\"" + volume + "\",\"" + mag + "\",\"" + page + "\",\"" + publisher + "\",\"" + place + "\"";
 
+            TakeList(titles, list, auther0, title, type, jour, year, volume, mag, page);
+            return ToResoultStr(quote, auther0, auther1, auther2, title, type, jour, year, volume, mag, page, publisher, place);
+
+        }
+
+        private static string ToResoultStr(string quote, string auther0, string auther1, string auther2, string title, string type, string jour, string year, string volume, string mag, string page, string publisher, string place) {
+            return UnicodeToString("\"" + quote + "\",\"" + type + "\",\"" + auther0 + "\",\"" + auther1 + "\",\"" + auther2 + "\",\"" + title + "\",\"" + jour + "\",\"" + year + "\",\"" + volume + "\",\"" + mag + "\",\"" + page + "\",\"" + "" + "\",\"" + place + "\",\"" + publisher + "\"");
         }
         public static string Download(string uri, string proxy) {
             HttpHelper http = new HttpHelper();
@@ -394,7 +444,7 @@ namespace Quotes {
             string str = "";
             str = sr.ReadLine();
             if (startCount == 0) {
-                str = str + ",\"quote\",\"auther0\",\"auther1\",\"auther2\",\"title\",\"type\",\"jour\",\"year\",\"volume\",\"mag\",\"page\",\"publisher\",\"place\",\"matchTitle\",\"matchValue\",\"标题匹配\",\"年是否一致\",\"类型是否一致\",\"第一作者是否一致\"";
+                str = str + ",\"quote\",\"type\",\"auther1\",\"auther2\",\"auther3\",\"title\",\"source_title\",\"year\",\"volume\",\"issue\",\"page\",\"editor_in_chief\",\"place\",\"publisher\",\"matchTitle\",\"matchValue\",\"标题匹配\",\"类型\",\"第一作者\",\"来源\",\"年\",\"卷\",\"期\",\"页\"";
             }
             sw_error.WriteLine(str);
             sw.WriteLine(str);
@@ -409,9 +459,9 @@ namespace Quotes {
                             string toWrite = str + ",";
                             List<string> list = new List<string>();
                             if (v.Length == 4) {
-                                toWrite += GetQuote(titles, v[0], v[1], proxy, false, list) + "," + "\"" + v[2] + "\"" + "," + "\"" + v[3] + "\"" + "," + "\"" + list[0] + "\"" + "," + "\"" + list[1] + "\"" + "," + "\"" + list[2] + "\"" + "," + "\"" + list[3] + "\"";
+                                toWrite += GetQuote(titles, v[0], v[1], proxy, false, list) + "," + "\"" + v[2] + "\"" + "," + "\"" + v[3] + "\"" + "," + "\"" + list[0] + "\"" + "," + "\"" + list[1] + "\"" + "," + "\"" + list[2] + "\"" + "," + "\"" + list[3] + "\"" + "," + "\"" + list[4] + "\"" + "," + "\"" + list[5] + "\"" + "," + "\"" + list[6] + "\"" + "," + "\"" + list[7] + "\"";
                             } else {
-                                toWrite += GetQuote(titles, v[0], v[1], proxy, true, list) + "," + "\"" + "" + "\"" + "," + "\"" + "" + "\"" + "," + "\"" + list[0] + "\"" + "," + "\"" + list[1] + "\"" + "," + "\"" + list[2] + "\"" + "," + "\"" + list[3] + "\"";
+                                toWrite += GetQuote(titles, v[0], v[1], proxy, true, list) + "," + "\"" + "" + "\"" + "," + "\"" + "" + "\"" + "," + "\"" + list[0] + "\"" + "," + "\"" + list[1] + "\"" + "," + "\"" + list[2] + "\"" + "," + "\"" + list[3] + "\"" + "," + "\"" + list[4] + "\"" + "," + "\"" + list[5] + "\"" + "," + "\"" + list[6] + "\"" + "," + "\"" + list[7] + "\"";
                             }
                             sw.WriteLine(toWrite);
                             sw.Flush();
@@ -444,6 +494,11 @@ namespace Quotes {
                 //goto GetProxy;
             }
 
+        }
+
+        public static string UnicodeToString(string str) {
+            Regex reg = new Regex(@"(?i)\\[uU]([0-9a-f]{4})");
+            return reg.Replace(str, delegate(Match m) { return ((char)Convert.ToInt32(m.Groups[1].Value, 16)).ToString(); });
         }
 
         public static string[] GetUriAndSign(string[] titles, string proxy) {
@@ -564,7 +619,7 @@ namespace Quotes {
             } else if (titles[2].Trim().ToUpper() == "C") {
                 return Deal_C(quote, titles, list);
             } else {
-                return "\"" + quote + "\"";
+                return Deal_J(quote, titles, list);
             }
         }
 

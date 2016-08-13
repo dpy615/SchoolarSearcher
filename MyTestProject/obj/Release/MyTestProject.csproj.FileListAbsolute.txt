@@ -3,3 +3,5 @@ F:\Documents\GitHub\SchoolarSearcher\MyTestProject\bin\Release\MyTestProject.pdb
 F:\Documents\GitHub\SchoolarSearcher\MyTestProject\obj\Release\MyTestProject.csprojResolveAssemblyReference.cache
 F:\Documents\GitHub\SchoolarSearcher\MyTestProject\obj\Release\MyTestProject.exe
 F:\Documents\GitHub\SchoolarSearcher\MyTestProject\obj\Release\MyTestProject.pdb
+E:\git\SchoolarSearcher\MyTestProject\obj\Release\MyTestProject.exe
+E:\git\SchoolarSearcher\MyTestProject\obj\Release\MyTestProject.pdb
