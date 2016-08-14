@@ -696,7 +696,16 @@ namespace Quotes {
         }
 
         private static List<string> ToList(string str1) {
-            List<string> lReturn = str1.ToLower().Split(' ').ToList();
+            List<string> lReturn;
+            if (Searcher.isCn) {
+                char[] chars = UnicodeToString(str1).ToCharArray();
+                lReturn = new List<string>();
+                for (int i = 0; i < chars.Length; i++) {
+                    lReturn.Add(chars[i].ToString());
+                }
+            } else {
+                lReturn = str1.ToLower().Split(' ').ToList();
+            }
             int count = lReturn.Count;
             for (int i = 0; i < count; i++) {
                 lReturn.Remove("");
@@ -707,5 +716,7 @@ namespace Quotes {
 
 
 
+
+        public static bool isCn { get; set; }
     }
 }

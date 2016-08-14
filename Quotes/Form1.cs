@@ -23,7 +23,9 @@ namespace Quotes {
             openFileDialog1.ShowDialog();
             string filename = openFileDialog1.FileName;
             textBox1.Text = filename;
-            textBox2.Text = filename.Substring(0, filename.LastIndexOf('.')) + "_res.csv";
+            if (filename.Contains('.')) {
+                textBox2.Text = filename.Substring(0, filename.LastIndexOf('.')) + "_res.csv";
+            }
         }
 
         private void button2_Click(object sender, EventArgs e) {
@@ -36,6 +38,7 @@ namespace Quotes {
         init:
             try {
                 Searcher.proxyString = textBox5.Text;
+                Searcher.isCn = checkBox2.Checked;
                 Searcher.InitProxy();
             } catch (Exception ex) {
                 goto init;

@@ -15,3 +15,6 @@ E:\git\SchoolarSearcher\Quotes\obj\Release\Quotes.Form1.resources
 E:\git\SchoolarSearcher\Quotes\obj\Release\Quotes.Properties.Resources.resources
 E:\git\SchoolarSearcher\Quotes\obj\Release\Quotes.csproj.GenerateResource.Cache
 E:\git\SchoolarSearcher\Quotes\obj\Release\Quotes.csprojResolveAssemblyReference.cache
+E:\git\SchoolarSearcher\Quotes\obj\Release\Quotes.AboutBox1.resources
+E:\git\SchoolarSearcher\Quotes\obj\Release\Quotes.QuoteSearch.resources
+E:\git\SchoolarSearcher\Quotes\obj\Release\Quotes.Excel2Csv.resources
