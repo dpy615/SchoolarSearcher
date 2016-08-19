@@ -800,12 +800,12 @@ namespace Quotes {
 
             string[] values = WosSearcher.Search(titles[7]);
             string[] authors = values[1].Split(';');
-            auther0 = authors[0];
+            auther0 = authors[0].Replace(",", "");
             if (authors.Length > 1) {
-                auther1 = authors[1];
+                auther1 = authors[1].Replace(",", "");
             }
             if (authors.Length > 2) {
-                auther2 = authors[2];
+                auther2 = authors[2].Replace(",", "");
             }
             title = values[8];
             type = values[0];

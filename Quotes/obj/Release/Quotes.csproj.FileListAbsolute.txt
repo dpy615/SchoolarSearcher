@@ -17,4 +17,3 @@ E:\git\SchoolarSearcher\Quotes\obj\Release\Quotes.QuoteSearch.resources
 E:\git\SchoolarSearcher\Quotes\obj\Release\Quotes.csproj.GenerateResource.Cache
 E:\git\SchoolarSearcher\Quotes\obj\Release\Quotes.exe
 E:\git\SchoolarSearcher\Quotes\obj\Release\Quotes.pdb
-E:\git\SchoolarSearcher\Quotes\obj\Release\Quotes.csprojResolveAssemblyReference.cache
