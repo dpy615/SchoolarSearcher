@@ -53,7 +53,7 @@ namespace ExcelToCsv {
                     XSSFWorkbook workBook = new XSSFWorkbook(fs);
                     ISheet sheet1 = workBook.GetSheet("Sheet1");
                     int cellCount = sheet1.GetRow(0).LastCellNum;
-                    for (int i = 0; i < sheet1.LastRowNum; i++) {
+                    for (int i = 0; i < sheet1.LastRowNum+1; i++) {
                         IRow row = sheet1.GetRow(i);
                         string str = "";
                         for (int j = 0; j < cellCount; j++) {

@@ -12,3 +12,17 @@ F:\Documents\GitHub\SchoolarSearcher\ExcelToCsv\obj\Release\ExcelToCsv.csproj.Ge
 F:\Documents\GitHub\SchoolarSearcher\ExcelToCsv\obj\Release\ExcelToCsv.exe
 F:\Documents\GitHub\SchoolarSearcher\ExcelToCsv\obj\Release\ExcelToCsv.pdb
 F:\Documents\GitHub\SchoolarSearcher\ExcelToCsv\obj\Release\ExcelToCsv.csprojResolveAssemblyReference.cache
+E:\git\SchoolarSearcher\ExcelToCsv\bin\Release\ExcelToCsv.exe
+E:\git\SchoolarSearcher\ExcelToCsv\bin\Release\ExcelToCsv.pdb
+E:\git\SchoolarSearcher\ExcelToCsv\bin\Release\ICSharpCode.SharpZipLib.dll
+E:\git\SchoolarSearcher\ExcelToCsv\bin\Release\Ionic.Zip.dll
+E:\git\SchoolarSearcher\ExcelToCsv\bin\Release\NPOI.dll
+E:\git\SchoolarSearcher\ExcelToCsv\bin\Release\NPOI.OOXML.dll
+E:\git\SchoolarSearcher\ExcelToCsv\bin\Release\NPOI.OpenXml4Net.dll
+E:\git\SchoolarSearcher\ExcelToCsv\bin\Release\NPOI.OpenXmlFormats.dll
+E:\git\SchoolarSearcher\ExcelToCsv\obj\Release\ExcelToCsv.csprojResolveAssemblyReference.cache
+E:\git\SchoolarSearcher\ExcelToCsv\obj\Release\ExcelToCsv.Form1.resources
+E:\git\SchoolarSearcher\ExcelToCsv\obj\Release\ExcelToCsv.Properties.Resources.resources
+E:\git\SchoolarSearcher\ExcelToCsv\obj\Release\ExcelToCsv.csproj.GenerateResource.Cache
+E:\git\SchoolarSearcher\ExcelToCsv\obj\Release\ExcelToCsv.exe
+E:\git\SchoolarSearcher\ExcelToCsv\obj\Release\ExcelToCsv.pdb

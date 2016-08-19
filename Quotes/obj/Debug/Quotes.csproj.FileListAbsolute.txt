@@ -16,3 +16,15 @@ F:\Documents\GitHub\SchoolarSearcher\Quotes\obj\Debug\Quotes.Form1.resources
 F:\Documents\GitHub\SchoolarSearcher\Quotes\obj\Debug\Quotes.Properties.Resources.resources
 F:\Documents\GitHub\SchoolarSearcher\Quotes\obj\Debug\Quotes.csproj.GenerateResource.Cache
 F:\Documents\GitHub\SchoolarSearcher\Quotes\obj\Debug\Quotes.csprojResolveAssemblyReference.cache
+E:\git\SchoolarSearcher\Quotes\bin\Debug\Quotes.exe.config
+E:\git\SchoolarSearcher\Quotes\obj\Debug\Quotes.exe
+E:\git\SchoolarSearcher\Quotes\obj\Debug\Quotes.pdb
+E:\git\SchoolarSearcher\Quotes\obj\Debug\Quotes.Excel2Csv.resources
+E:\git\SchoolarSearcher\Quotes\obj\Debug\Quotes.Form1.resources
+E:\git\SchoolarSearcher\Quotes\obj\Debug\Quotes.AboutBox1.resources
+E:\git\SchoolarSearcher\Quotes\obj\Debug\Quotes.Properties.Resources.resources
+E:\git\SchoolarSearcher\Quotes\obj\Debug\Quotes.QuoteSearch.resources
+E:\git\SchoolarSearcher\Quotes\obj\Debug\Quotes.csproj.GenerateResource.Cache
+E:\git\SchoolarSearcher\Quotes\bin\Debug\Quotes.exe
+E:\git\SchoolarSearcher\Quotes\bin\Debug\Quotes.pdb
+E:\git\SchoolarSearcher\Quotes\obj\Debug\Quotes.csprojResolveAssemblyReference.cache

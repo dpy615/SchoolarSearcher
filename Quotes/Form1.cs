@@ -90,5 +90,22 @@ namespace Quotes {
 
 
         }
+
+        private void button5_Click(object sender, EventArgs e) {
+            new Thread(new ThreadStart(DoWOS)).Start();
+            button5.Enabled = false;
+            new Thread(new ThreadStart(Time)).Start();
+        }
+
+        private void DoWOS() {
+            try {
+                Searcher.DoSearchWOS(textBox1.Text, textBox2.Text);
+                MessageBox.Show("完成");
+            } catch (Exception e) {
+                MessageBox.Show(e.ToString());
+                button5.Enabled = true;
+            }
+
+        }
     }
 }

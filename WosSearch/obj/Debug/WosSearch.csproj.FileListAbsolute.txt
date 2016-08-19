@@ -1,0 +1,6 @@
+E:\git\SchoolarSearcher\WosSearch\bin\Debug\WosSearch.exe.config
+E:\git\SchoolarSearcher\WosSearch\bin\Debug\WosSearch.exe
+E:\git\SchoolarSearcher\WosSearch\bin\Debug\WosSearch.pdb
+E:\git\SchoolarSearcher\WosSearch\obj\Debug\WosSearch.exe
+E:\git\SchoolarSearcher\WosSearch\obj\Debug\WosSearch.pdb
+E:\git\SchoolarSearcher\WosSearch\obj\Debug\WosSearch.csprojResolveAssemblyReference.cache

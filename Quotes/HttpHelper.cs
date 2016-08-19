@@ -147,6 +147,10 @@ namespace Quotes {
             request.Timeout = item.Timeout;
             request.KeepAlive = item.KeepAlive;
             request.ReadWriteTimeout = item.ReadWriteTimeout;
+            if (!string.IsNullOrEmpty(item.Host)) {
+                request.Host = item.Host;
+            }
+
             //Accept
             request.Accept = item.Accept;
             //ContentType返回类型
@@ -505,6 +509,13 @@ namespace Quotes {
         public Encoding PostEncoding {
             get { return _PostEncoding; }
             set { _PostEncoding = value; }
+        }
+
+        private string _Host;
+
+        public string Host {
+            get { return _Host; }
+            set { _Host = value; }
         }
     }
     /// <summary>

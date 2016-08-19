@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Quotes</RootNamespace>
     <AssemblyName>Quotes</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -76,6 +76,7 @@
       <DependentUpon>QuoteSearch.cs</DependentUpon>
     </Compile>
     <Compile Include="Searcher.cs" />
+    <Compile Include="WosSearcher.cs" />
     <EmbeddedResource Include="Excel2Csv.resx">
       <DependentUpon>Excel2Csv.cs</DependentUpon>
     </EmbeddedResource>
