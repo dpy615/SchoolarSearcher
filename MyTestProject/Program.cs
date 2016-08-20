@@ -6,9 +6,10 @@ using System.Web;
 namespace MyTestProject {
     class Program {
         static void Main(string[] args) {
-            string http = "http%253A%252F%252Fwww.cnki.com.cn%252FArticle%252FCJFDTotal-JSJC199705009.htm";
-
-            string str = Uri.UnescapeDataString(http);
+            string http = "Hello";
+            string[] strs = new string[] {"234" };
+            //strs.GetLowerBound
+            string str = http.ToLowerInvariant();
 
             Console.WriteLine(str);
         }

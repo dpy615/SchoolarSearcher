@@ -388,7 +388,7 @@ namespace Quotes {
                     jour = tmp.Split('.')[0];
                     publisher = tmp.Split('.')[1];
                 }
-                year = jours[jours.Length-2].Trim();
+                year = jours[jours.Length - 2].Trim();
                 if (year.Contains('(')) {
                     year = year.Substring(0, year.IndexOf('('));
                 } else if (year.Contains(':')) {
@@ -402,7 +402,7 @@ namespace Quotes {
         }
 
         private static string ToResoultStr(string quote, string auther0, string auther1, string auther2, string title, string type, string jour, string year, string volume, string mag, string page, string publisher, string place) {
-            return UnicodeToString("\"" + quote + "\",\"" + type + "\",\"" + auther0 + "\",\"" + auther1 + "\",\"" + auther2 + "\",\"" + title.Replace("\"","“") + "\",\"" + jour + "\",\"" + year + "\",\"" + volume + "\",\"" + mag + "\",\"" + page + "\",\"" + "" + "\",\"" + place + "\",\"" + publisher + "\"");
+            return UnicodeToString("\"" + quote + "\",\"" + type + "\",\"" + auther0 + "\",\"" + auther1 + "\",\"" + auther2 + "\",\"" + title.Replace("\"", "“") + "\",\"" + jour + "\",\"" + year + "\",\"" + volume + "\",\"" + mag + "\",\"" + page + "\",\"" + "" + "\",\"" + place + "\",\"" + publisher + "\"");
         }
         public static string Download(string uri, string proxy) {
             HttpHelper http = new HttpHelper();
@@ -739,24 +739,27 @@ namespace Quotes {
                 isAppend = true;
             }
             StreamWriter sw = new StreamWriter(saveName, isAppend, Encoding.UTF8);
-            StreamWriter sw_error = new StreamWriter(saveName + "error.csv", isAppend, Encoding.UTF8);
+            StreamWriter sw_error = new StreamWriter(saveName.Substring(0,saveName.LastIndexOf(".")) + ".error.csv", isAppend, Encoding.UTF8);
+            StreamWriter sw_wosData = new StreamWriter(saveName.Substring(0, saveName.LastIndexOf(".")) + ".wos.txt", isAppend, Encoding.UTF8);
             string str = "";
             str = sr.ReadLine();
             if (startCount == 0) {
-                str = str + ",\"quote\",\"type\",\"auther1\",\"auther2\",\"auther3\",\"title\",\"source_title\",\"year\",\"volume\",\"issue\",\"page\",\"editor_in_chief\",\"place\",\"publisher\",\"文献类型\",\"数字对象标识符\",\"入藏号\",\"matchTitle\",\"matchValue\",\"标题匹配\",\"类型\",\"第一作者\",\"来源\",\"年\",\"卷\",\"期\",\"页\"";
+                str = str + ",\"quote\",\"type\",\"auther1\",\"auther2\",\"auther3\",\"title\",\"source_title\",\"year\",\"volume\",\"issue\",\"page\",\"editor_in_chief\",\"place\",\"publisher\",\"文献类型\",\"数字对象标识符\",\"入藏号\",\"修正后source\",\"修正后place\",\"修正后publisher\",\"作者4\",\"matchTitle\",\"matchValue\",\"标题匹配\",\"类型\",\"第一作者\",\"来源\",\"年\",\"卷\",\"期\",\"页\"";
+
+                sw_error.WriteLine(str);
+                sw.WriteLine(str);
+                sw_wosData.WriteLine("PT	AU	BA	BE	GP	AF	BF	CA	TI	SO	SE	BS	LA	DT	CT	CY	CL	SP	HO	DE	ID	AB	C1	RP	EM	RI	OI	FU	FX	CR	NR	TC	Z9	U1	U2	PU	PI	PA	SN	EI	BN	J9	JI	PD	PY	VL	IS	PN	SU	SI	MA	BP	EP	AR	DI	D2	PG	WC	SC	GA	UT	PM");
             }
-            sw_error.WriteLine(str);
-            sw.WriteLine(str);
             WosSearcher.InitHttp();
             while (!string.IsNullOrEmpty(str = sr.ReadLine())) {
                 if (count >= startCount) {
                     string[] titles = Regex.Split(str, "\",\"");
                     errorCount = 0;
                     if (!string.IsNullOrEmpty(titles[7])) {
-                    //start:
+                        //start:
                         try {
                             List<string> list = new List<string>();
-                            string v = GetValuesWOS(titles, list);
+                            string v = GetValuesWOS(titles, list,sw_wosData);
                             str += "," + v;
                             foreach (var item in list) {
                                 str += "," + "\"" + item + "\"";
@@ -780,13 +783,15 @@ namespace Quotes {
             }
             sr.Close();
             sw.Close();
+            sw_wosData.Close();
             sw_error.Close();
         }
 
-        private static string GetValuesWOS(string[] titles, List<string> list) {
+        private static string GetValuesWOS(string[] titles, List<string> list,StreamWriter sw) {
             string auther0 = "";
             string auther1 = "";
             string auther2 = "";
+            string auther3 = "";
             string title = "";
             string type = "";
             string jour = "";
@@ -800,12 +805,15 @@ namespace Quotes {
 
             string[] values = WosSearcher.Search(titles[7]);
             string[] authors = values[1].Split(';');
-            auther0 = authors[0].Replace(",", "");
+            auther0 = WosAuthToUcasAuth(authors[0]);
             if (authors.Length > 1) {
-                auther1 = authors[1].Replace(",", "");
+                auther1 = WosAuthToUcasAuth(authors[1]);
             }
             if (authors.Length > 2) {
-                auther2 = authors[2].Replace(",", "");
+                auther2 = WosAuthToUcasAuth(authors[2]);
+            }
+            if (authors.Length > 3) {
+                auther3 = WosAuthToUcasAuth(authors[3]);
             }
             title = values[8];
             type = values[0];
@@ -814,20 +822,99 @@ namespace Quotes {
             year = values[44];
             volume = values[45];
             mag = values[46];
-            page = values[51] + "-" + values[52];
+            string startP = DelFrontZero(values[51]);
+            string endP = DelFrontZero(values[52]);
+            if (string.IsNullOrEmpty(values[51]) || string.IsNullOrEmpty(values[52])) {
+                page = startP + endP;
+            } else {
+                page = startP + "-" + endP;
+            }
             publisher = values[35];
             place = values[36];
 
             string matchValue = values[values.Length - 1];
             string matchTitle = values[values.Length - 2];
 
+            sw.WriteLine(values[values.Length - 3]);
+            sw.Flush();
+            //,\"修正后source\",\"修正后place\",\"修正后publisher\",\"作者4\",
             TakeList(titles, list, auther0, title, type, jour, year, volume, mag, page);
             return ToResoultStr("", auther0, auther1, auther2, title, type, jour, year, volume, mag, page, publisher, place)
                 + ",\"" + values[13] + "\""
                 + ",\"" + values[54] + "\""
                 + ",\"" + values[60] + "\""
-                + ",\"" + matchTitle + "\"" 
-                + ",\"" + matchValue + "\"" ;
+                + ",\"" + SourceLetterDeal(jour) + "\""
+                + ",\"" + FirstLetterUper(place) + "\""
+                + ",\"" + FirstLetterUper(publisher) + "\""
+                + ",\"" + auther3 + "\""
+                + ",\"" + matchTitle + "\""
+                + ",\"" + matchValue + "\"";
         }
+
+        public static string WosAuthToUcasAuth(string author) {
+            string sReturn = author.Replace(",", ""); ;
+            string[] name = sReturn.Split(' ');
+            var tmpName = FirstLetterUper(name[0]);
+            if (name.Length == 2) {
+                Char[] chars = name[1].ToCharArray();
+                for (int i = 0; i < chars.Length; i++) {
+                    tmpName += " " + chars[i].ToString();
+                }
+                sReturn = tmpName;
+            }
+            return sReturn.Trim();
+        }
+
+        /// <summary>
+        /// 首字母大写
+        /// </summary>
+        /// <param name="word_src"></param>
+        /// <returns></returns>
+        public static string FirstLetterUper(string word_src) {
+            string word = word_src.Trim();
+            if (string.IsNullOrEmpty(word)) {
+                return "";
+            }
+            return word.Substring(0, 1).ToUpper() + word.Substring(1).ToLower();
+
+        }
+
+
+        static List<string> NoUpList = new List<string>() { "an", "a", "the", "of", "and", "or", "in", "to" };
+        public static string FirstLetterUper2(string word_src) {
+            string word = word_src.Trim();
+            if (string.IsNullOrEmpty(word)) {
+                return "";
+            }
+            if (NoUpList.Contains(word.ToLower())) {
+                return word.ToLower();
+            } else {
+                return word.Substring(0, 1).ToUpper() + word.Substring(1).ToLower();
+            }
+
+        }
+
+        public static string SourceLetterDeal(string source_src) {
+            string[] sourceArray = source_src.Trim().Split(' ');
+            string sReturn = "";
+            for (int i = 0; i < sourceArray.Length; i++) {
+                sReturn += FirstLetterUper2(sourceArray[i]) + " ";
+            }
+            return sReturn.Trim();
+        }
+
+        /// <summary>
+        /// 删除开头的0
+        /// </summary>
+        /// <param name="word_src"></param>
+        /// <returns></returns>
+        public static string DelFrontZero(string word_src) {
+            string word = word_src.Trim();
+            while (word.Length > 0 && word.StartsWith("0")) {
+                word = word.Substring(1);
+            }
+            return word;
+        }
+
     }
 }

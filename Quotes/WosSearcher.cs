@@ -160,11 +160,13 @@ namespace Quotes {
             MoveTmp(http, ref result, cookie);
 
             string res = result.Html;
+            string txt = res.Replace("\n", "").Split('\r')[1];
             string[] resArr = res.Replace("\n", "").Split('\r')[1].Split('\t');
-            sReturn = new string[resArr.Length + 2];
+            sReturn = new string[resArr.Length + 3];
             Array.Copy(resArr, sReturn, resArr.Length);
-            sReturn[resArr.Length] = matchTitle;
-            sReturn[resArr.Length + 1] = matchValue.ToString();
+            sReturn[resArr.Length] = txt;
+            sReturn[resArr.Length+1] = matchTitle;
+            sReturn[resArr.Length + 2] = matchValue.ToString();
             return sReturn;
         }
 
