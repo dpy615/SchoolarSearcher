@@ -163,7 +163,20 @@ namespace ExcelToCsv {
                 while (!string.IsNullOrEmpty((str = sr.ReadLine()))) {
                     try {
                         SetLabel(label1, "第" + (i++) + "条");
+
+                        string tmpstr = str;
+                        string[] res = Regex.Split(tmpstr, "\",\"");
+                        int length = res.Length;
+                        while (Regex.Split(tmpstr, "\",\"").Length != 17 || !tmpstr.EndsWith("\"")) {
+                            str = sr.ReadLine();
+                            if (str == null) {
+                                return;
+                            }
+                            tmpstr += str;
+                        }
+
                         string[] values = Regex.Split(str.Substring(1, str.Length - 2), "\",\"");
+
                         string type = values[2];
                         string title = values[7];
                         if (!string.IsNullOrEmpty(title)) {
@@ -244,7 +257,18 @@ namespace ExcelToCsv {
                 while (!string.IsNullOrEmpty((str = sr.ReadLine()))) {
                     try {
                         SetLabel(label1, "第" + (fileCount * num + i++) + "条");
-                        sw.WriteLine(str);
+                        string tmpstr = str;
+                        string[] res = Regex.Split(tmpstr, "\",\"");
+                        int length = res.Length;
+                        while ( Regex.Split(tmpstr, "\",\"").Length != 17|| !tmpstr.EndsWith("\"")) {
+                            str = sr.ReadLine();
+                            if(str == null){
+                                return;
+                            }
+                            tmpstr += str;
+                        }
+
+                        sw.WriteLine(tmpstr);
                         sw.Flush();
                         if (i > num) {
                             sw.Close();
