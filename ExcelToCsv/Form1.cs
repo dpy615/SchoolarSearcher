@@ -53,7 +53,7 @@ namespace ExcelToCsv {
                     XSSFWorkbook workBook = new XSSFWorkbook(fs);
                     ISheet sheet1 = workBook.GetSheet("Sheet1");
                     int cellCount = sheet1.GetRow(0).LastCellNum;
-                    for (int i = 0; i < sheet1.LastRowNum+1; i++) {
+                    for (int i = 0; i < sheet1.LastRowNum + 1; i++) {
                         IRow row = sheet1.GetRow(i);
                         string str = "";
                         for (int j = 0; j < cellCount; j++) {
@@ -260,9 +260,9 @@ namespace ExcelToCsv {
                         string tmpstr = str;
                         string[] res = Regex.Split(tmpstr, "\",\"");
                         int length = res.Length;
-                        while ( Regex.Split(tmpstr, "\",\"").Length != 17|| !tmpstr.EndsWith("\"")) {
+                        while (Regex.Split(tmpstr, "\",\"").Length != 17 || !tmpstr.EndsWith("\"")) {
                             str = sr.ReadLine();
-                            if(str == null){
+                            if (str == null) {
                                 return;
                             }
                             tmpstr += str;
@@ -288,6 +288,83 @@ namespace ExcelToCsv {
                 throw;
             } finally {
                 sr.Close();
+                sw.Close();
+                sw_error.Close();
+            }
+        }
+
+        private void button7_Click(object sender, EventArgs e) {
+            openFileDialog1.Multiselect = true;
+            openFileDialog1.ShowDialog();
+            for (int i = 0; i < openFileDialog1.FileNames.Length; i++) {
+                textBox4.Text += openFileDialog1.FileNames[i] + ";";
+            }
+            if (openFileDialog1.FileName.Length > 0) {
+                textBox5.Text = openFileDialog1.FileName.Substring(0, openFileDialog1.FileName.LastIndexOf('.')) + ".res.csv";
+            }
+            openFileDialog1.Multiselect = false;
+
+
+        }
+
+        private void button8_Click(object sender, EventArgs e) {
+            new Thread(MergeCsv).Start();
+            button8.Enabled = false;
+        }
+        private void MergeCsv() {
+            try {
+                MergeCsv(textBox4.Text, textBox5.Text, label1);
+                MessageBox.Show("完成");
+            } catch (Exception e) {
+                MessageBox.Show("失败！\r\n" + e.Message);
+            }
+            button8.Enabled = true;
+        }
+
+        public static void MergeCsv(string inputFileName, string outFileName, Label label1) {
+            StreamWriter sw = null;
+            StreamWriter sw_error = null;
+
+            try {
+                if (File.Exists(outFileName)) {
+                    File.Delete(outFileName);
+                }
+                if (File.Exists(outFileName + ".error")) {
+                    File.Delete(outFileName + ".error");
+                }
+                sw = new StreamWriter(new FileStream(outFileName, FileMode.Create), Encoding.UTF8);
+                sw_error = new StreamWriter(new FileStream(outFileName + ".error", FileMode.CreateNew), Encoding.UTF8);
+                string[] fileList = inputFileName.Split(';');
+                SetLabel(label1, "开始合并");
+                for (int i = 0; i < fileList.Length; i++) {
+                    if (string.IsNullOrEmpty(fileList[i])) {
+                        continue;
+                    }
+                    StreamReader sr = new StreamReader(fileList[i], Encoding.UTF8);
+                    string head = sr.ReadLine();
+                    if (i == 0) {
+                        sw.WriteLine(head);
+                    }
+                    string str = "";
+                    int j = 1;
+                    while (!string.IsNullOrEmpty((str = sr.ReadLine()))) {
+                        try {
+                            SetLabel(label1, string.Format("正在合并文件{0}中的第{1}条", fileList[i], j++));
+                            string tmpstr = str;
+                            sw.WriteLine(tmpstr);
+                            sw.Flush();
+                        } catch (Exception) {
+                            sw_error.WriteLine(str);
+                        }
+
+                    }
+                    SetLabel(label1, "完成");
+                    sr.Close();
+                }
+            } catch (Exception) {
+
+                throw;
+            } finally {
                 sw.Close();
                 sw_error.Close();
             }
