@@ -11,7 +11,6 @@ F:\Documents\GitHub\SchoolarSearcher\ExcelToCsv\obj\Release\ExcelToCsv.Propertie
 F:\Documents\GitHub\SchoolarSearcher\ExcelToCsv\obj\Release\ExcelToCsv.csproj.GenerateResource.Cache
 F:\Documents\GitHub\SchoolarSearcher\ExcelToCsv\obj\Release\ExcelToCsv.exe
 F:\Documents\GitHub\SchoolarSearcher\ExcelToCsv\obj\Release\ExcelToCsv.pdb
-F:\Documents\GitHub\SchoolarSearcher\ExcelToCsv\obj\Release\ExcelToCsv.csprojResolveAssemblyReference.cache
 E:\git\SchoolarSearcher\ExcelToCsv\bin\Release\ExcelToCsv.exe
 E:\git\SchoolarSearcher\ExcelToCsv\bin\Release\ExcelToCsv.pdb
 E:\git\SchoolarSearcher\ExcelToCsv\bin\Release\ICSharpCode.SharpZipLib.dll

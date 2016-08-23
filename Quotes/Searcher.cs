@@ -41,6 +41,9 @@ namespace Quotes {
             if (!string.IsNullOrEmpty(filename)) {
                 proxyList = File.ReadAllLines(filename).ToList();
             } else {
+                if (string.IsNullOrEmpty(proxyString)) {
+                    return;
+                }
                 WebClient client = new WebClient();
                 client.Encoding = Encoding.UTF8;
                 string str = client.DownloadString(proxyString);
@@ -402,7 +405,7 @@ namespace Quotes {
         }
 
         private static string ToResoultStr(string quote, string auther0, string auther1, string auther2, string title, string type, string jour, string year, string volume, string mag, string page, string publisher, string place) {
-            return UnicodeToString("\"" + quote + "\",\"" + type + "\",\"" + auther0 + "\",\"" + auther1 + "\",\"" + auther2 + "\",\"" + title.Replace("\"", "“") + "\",\"" + jour + "\",\"" + year + "\",\"" + volume + "\",\"" + mag + "\",\"" + page + "\",\"" + "" + "\",\"" + place + "\",\"" + publisher + "\"");
+            return UnicodeToString("\"" + quote + "\",\"" + type + "\",\"" + auther0 + "\",\"" + auther1 + "\",\"" + auther2 + "\",\"" + title + "\",\"" + jour + "\",\"" + year + "\",\"" + volume + "\",\"" + mag + "\",\"" + page + "\",\"" + "" + "\",\"" + place + "\",\"" + publisher + "\"");
         }
         public static string Download(string uri, string proxy) {
             HttpHelper http = new HttpHelper();
@@ -604,7 +607,7 @@ namespace Quotes {
                 throw new Exception("NET:Download");
             }
             //string[] datas = data.Replace("\n", "").Split('\r');
-            string sreturn = DealData(data, titles, list);
+            string sreturn = DealData(data, titles, list).Replace("\\\"","\"\"");
             return sreturn;
 
         }
@@ -739,7 +742,7 @@ namespace Quotes {
                 isAppend = true;
             }
             StreamWriter sw = new StreamWriter(saveName, isAppend, Encoding.UTF8);
-            StreamWriter sw_error = new StreamWriter(saveName.Substring(0,saveName.LastIndexOf(".")) + ".error.csv", isAppend, Encoding.UTF8);
+            StreamWriter sw_error = new StreamWriter(saveName.Substring(0, saveName.LastIndexOf(".")) + ".error.csv", isAppend, Encoding.UTF8);
             StreamWriter sw_wosData = new StreamWriter(saveName.Substring(0, saveName.LastIndexOf(".")) + ".wos.txt", isAppend, Encoding.UTF8);
             string str = "";
             str = sr.ReadLine();
@@ -759,7 +762,7 @@ namespace Quotes {
                         //start:
                         try {
                             List<string> list = new List<string>();
-                            string v = GetValuesWOS(titles, list,sw_wosData);
+                            string v = GetValuesWOS(titles, list, sw_wosData);
                             str += "," + v;
                             foreach (var item in list) {
                                 str += "," + "\"" + item + "\"";
@@ -787,7 +790,7 @@ namespace Quotes {
             sw_error.Close();
         }
 
-        private static string GetValuesWOS(string[] titles, List<string> list,StreamWriter sw) {
+        private static string GetValuesWOS(string[] titles, List<string> list, StreamWriter sw) {
             string auther0 = "";
             string auther1 = "";
             string auther2 = "";

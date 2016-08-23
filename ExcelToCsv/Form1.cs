@@ -296,11 +296,12 @@ namespace ExcelToCsv {
         private void button7_Click(object sender, EventArgs e) {
             openFileDialog1.Multiselect = true;
             openFileDialog1.ShowDialog();
+            textBox4.Text = "";
             for (int i = 0; i < openFileDialog1.FileNames.Length; i++) {
                 textBox4.Text += openFileDialog1.FileNames[i] + ";";
             }
             if (openFileDialog1.FileName.Length > 0) {
-                textBox5.Text = openFileDialog1.FileName.Substring(0, openFileDialog1.FileName.LastIndexOf('.')) + ".res.csv";
+                textBox5.Text = openFileDialog1.FileName.Substring(0, openFileDialog1.FileName.LastIndexOf('.')) + ".Combine.csv";
             }
             openFileDialog1.Multiselect = false;
 

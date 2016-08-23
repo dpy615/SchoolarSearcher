@@ -55,10 +55,12 @@ namespace Quotes {
                 int.TryParse(textBox4.Text.ToString(), out Searcher.startCount);
                 Searcher.proxy = Searcher.GetProxy();
                 Searcher.DoSearchBaiDu(textBox1.Text, textBox2.Text);
+                MessageBox.Show("完成");
             } catch (Exception e) {
                 MessageBox.Show(e.ToString());
-                button3.Enabled = true;
             }
+
+            button3.Enabled = true;
 
         }
         bool run = true;
