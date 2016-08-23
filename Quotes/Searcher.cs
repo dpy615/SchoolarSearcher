@@ -607,7 +607,7 @@ namespace Quotes {
                 throw new Exception("NET:Download");
             }
             //string[] datas = data.Replace("\n", "").Split('\r');
-            string sreturn = DealData(data, titles, list).Replace("\\\"","\"\"");
+            string sreturn = DealData(data, titles, list).Replace("\\\"", "\"\"");
             return sreturn;
 
         }
@@ -680,8 +680,10 @@ namespace Quotes {
         /// <param name="str1"></param>
         /// <param name="str2"></param>
         /// <returns></returns>
-        public static double MatchValue(string str1, string str2) {
+        public static double MatchValue(string str1_src, string str2_src) {
             double matchValue = 0;
+            string str1 = DealStringForMatch(str1_src);
+            string str2 = DealStringForMatch(str2_src);
 
             List<string> strArray1 = ToList(str1);
             List<string> strArray2 = ToList(str2);
@@ -709,6 +711,13 @@ namespace Quotes {
             matchValue = matchValue / (strArray1.Count + strArray2.Count);
 
             return Math.Round(matchValue, 2);
+        }
+
+        private static string DealStringForMatch(string str_src) {
+            string regex = @"[^\w]+";
+            string str = ToDBC(str_src);
+            str = Regex.Replace(str, regex, " ");
+            return str;
         }
 
         private static List<string> ToList(string str1) {
@@ -917,6 +926,25 @@ namespace Quotes {
                 word = word.Substring(1);
             }
             return word;
+        }
+
+
+        /// <summary>
+        /// 全角转半角
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static string ToDBC(string input) {
+            char[] c = input.ToCharArray();
+            for (int i = 0; i < c.Length; i++) {
+                if (c[i] == 12288) {
+                    c[i] = (char)32;
+                    continue;
+                }
+                if (c[i] > 65280 && c[i] < 65375)
+                    c[i] = (char)(c[i] - 65248);
+            }
+            return new string(c);
         }
 
     }
