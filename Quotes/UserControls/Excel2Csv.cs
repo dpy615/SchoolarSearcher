@@ -12,5 +12,9 @@ namespace Quotes {
         public Excel2Csv() {
             InitializeComponent();
         }
+
+        public void Close() {
+            this.Visible = false;
+        }
     }
 }

@@ -15,10 +15,16 @@ namespace Quotes {
 
         private void excelCsvToolStripMenuItem_Click(object sender, EventArgs e) {
             excel2Csv1.Visible = true;
+            searcherControl1.Close();
         }
 
         private void 关于ToolStripMenuItem_Click(object sender, EventArgs e) {
             new AboutBox1().Show();
+        }
+
+        private void SearchToolStripMenuItem_Click(object sender, EventArgs e) {
+            searcherControl1.Visible = true;
+            excel2Csv1.Close();
         }
     }
 }

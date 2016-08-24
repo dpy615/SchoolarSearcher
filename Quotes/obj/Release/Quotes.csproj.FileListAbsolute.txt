@@ -20,3 +20,4 @@ E:\git\SchoolarSearcher\Quotes\obj\Release\Quotes.pdb
 F:\Documents\GitHub\SchoolarSearcher\Quotes\obj\Release\Quotes.Excel2Csv.resources
 F:\Documents\GitHub\SchoolarSearcher\Quotes\obj\Release\Quotes.AboutBox1.resources
 F:\Documents\GitHub\SchoolarSearcher\Quotes\obj\Release\Quotes.QuoteSearch.resources
+F:\Documents\GitHub\SchoolarSearcher\Quotes\obj\Release\Quotes.SearcherControl.resources

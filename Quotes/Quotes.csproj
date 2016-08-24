@@ -48,10 +48,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
-    <Compile Include="Excel2Csv.cs">
+    <Compile Include="UserControls\SearcherControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Excel2Csv.Designer.cs">
+    <Compile Include="UserControls\SearcherControl.Designer.cs">
+      <DependentUpon>SearcherControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Excel2Csv.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\Excel2Csv.Designer.cs">
       <DependentUpon>Excel2Csv.cs</DependentUpon>
     </Compile>
     <Compile Include="Form1.cs">
@@ -77,7 +83,10 @@
     </Compile>
     <Compile Include="Searcher.cs" />
     <Compile Include="WosSearcher.cs" />
-    <EmbeddedResource Include="Excel2Csv.resx">
+    <EmbeddedResource Include="UserControls\SearcherControl.resx">
+      <DependentUpon>SearcherControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\Excel2Csv.resx">
       <DependentUpon>Excel2Csv.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
