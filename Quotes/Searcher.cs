@@ -10,8 +10,8 @@ using System.Threading;
 
 namespace Quotes {
     public class Searcher {
-        public static int count;
-        public static int startCount;
+        public int count;
+        public int startCount;
         public static string uri = "";
         public static string quote_uri = "https://xueshu.glgoo.com/scholar?q=info:***:scholar.google.com/&output=cite&scirp=0&hl=zh-CN";
 
@@ -74,7 +74,7 @@ namespace Quotes {
         /// </summary>
         /// <param name="fileName"></param>
         /// <param name="saveName"></param>
-        public static void DoSearch(string fileName, string saveName) {
+        public void DoSearch(string fileName, string saveName) {
             uri = "https://xue.glgoo.com/scholar?q=***G=&hl=zh-CN&as_sdt=0%2C5";
             StreamReader sr = new StreamReader(fileName);
             StreamWriter sw = new StreamWriter(saveName, false);
@@ -439,7 +439,7 @@ namespace Quotes {
 
         #region 百度学术
 
-        public static void DoSearchBaiDu(string fileName, string saveName) {
+        public void DoSearchBaiDu(string fileName, string saveName) {
             StreamReader sr = new StreamReader(fileName);
             bool isAppend = false;
             if (startCount > 0) {
@@ -743,8 +743,9 @@ namespace Quotes {
 
 
         public static bool isCn { get; set; }
+        public bool run = true;
 
-        internal static void DoSearchWOS(string fileName, string saveName) {
+        internal void DoSearchWOS(string fileName, string saveName) {
             StreamReader sr = new StreamReader(fileName);
             bool isAppend = false;
             if (startCount > 0) {
@@ -763,7 +764,7 @@ namespace Quotes {
                 sw_wosData.WriteLine("PT	AU	BA	BE	GP	AF	BF	CA	TI	SO	SE	BS	LA	DT	CT	CY	CL	SP	HO	DE	ID	AB	C1	RP	EM	RI	OI	FU	FX	CR	NR	TC	Z9	U1	U2	PU	PI	PA	SN	EI	BN	J9	JI	PD	PY	VL	IS	PN	SU	SI	MA	BP	EP	AR	DI	D2	PG	WC	SC	GA	UT	PM");
             }
             WosSearcher.InitHttp();
-            while (!string.IsNullOrEmpty(str = sr.ReadLine())) {
+            while (!string.IsNullOrEmpty(str = sr.ReadLine()) && run) {
                 if (count >= startCount) {
                     string[] titles = Regex.Split(str, "\",\"");
                     errorCount = 0;
@@ -797,6 +798,9 @@ namespace Quotes {
             sw.Close();
             sw_wosData.Close();
             sw_error.Close();
+            if (!run) {
+                throw new Exception("error");
+            }
         }
 
         private static string GetValuesWOS(string[] titles, List<string> list, StreamWriter sw) {

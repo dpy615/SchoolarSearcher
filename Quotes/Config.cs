@@ -5,5 +5,6 @@ using System.Text;
 
 namespace Quotes {
     class Config {
+        public static string proxyString = "";
     }
 }

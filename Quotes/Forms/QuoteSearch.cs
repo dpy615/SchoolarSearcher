@@ -26,5 +26,12 @@ namespace Quotes {
             searcherControl1.Visible = true;
             excel2Csv1.Close();
         }
+
+        private void QuoteSearch_FormClosing(object sender, FormClosingEventArgs e) {
+            for (int i = 0; i < SearcherControl.searcherList.Count; i++) {
+                SearcherControl.searcherList[i].Close() ;
+            }
+            
+        }
     }
 }

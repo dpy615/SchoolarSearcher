@@ -16,8 +16,9 @@ namespace Quotes {
         public Form1() {
             InitializeComponent();
             Control.CheckForIllegalCrossThreadCalls = false;
+            search = new Searcher();
         }
-
+        Searcher search;
         List<string> proxyList = new List<string>();
         private void button1_Click(object sender, EventArgs e) {
             openFileDialog1.ShowDialog();
@@ -52,9 +53,9 @@ namespace Quotes {
         }
         private void Do() {
             try {
-                int.TryParse(textBox4.Text.ToString(), out Searcher.startCount);
+                int.TryParse(textBox4.Text.ToString(), out search.startCount);
                 Searcher.proxy = Searcher.GetProxy();
-                Searcher.DoSearchBaiDu(textBox1.Text, textBox2.Text);
+                search.DoSearchBaiDu(textBox1.Text, textBox2.Text);
                 MessageBox.Show("完成");
             } catch (Exception e) {
                 MessageBox.Show(e.ToString());
@@ -67,7 +68,7 @@ namespace Quotes {
         private void Time() {
             while (run) {
                 try {
-                    label1.Text = "完成计数：" + Searcher.count;
+                    label1.Text = "完成计数：" + search.count;
                     label4.Text = "当前代理IP：" + Searcher.proxy;
                     Thread.Sleep(1000);
                 } catch (Exception) {
@@ -101,7 +102,7 @@ namespace Quotes {
 
         private void DoWOS() {
             try {
-                Searcher.DoSearchWOS(textBox1.Text, textBox2.Text);
+                search.DoSearchWOS(textBox1.Text, textBox2.Text);
                 MessageBox.Show("完成");
             } catch (Exception e) {
                 MessageBox.Show(e.ToString());
