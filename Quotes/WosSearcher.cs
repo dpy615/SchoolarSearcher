@@ -11,8 +11,8 @@ namespace Quotes {
         static HttpHelper http;
         static HttpResult result;
         static string cookie;
-        public static string[] Search(string title) {
-            return DownLoad(http, ref result, cookie, title);
+        public static string[] Search(string title ,bool isCn) {
+            return DownLoad(http, ref result, cookie, title, isCn);
         }
 
         public  static void InitHttp() {
@@ -48,7 +48,7 @@ namespace Quotes {
         public static string reg_title = @"doc=\d{0,3}""><value lang_id="""">.*?</value>";
         public static string reg_rurl = "<input type=\"hidden\" id=\"rurl\" name=\"rurl\" value=\".*?\" />";
         public static string reg_qid = @"<input type=""hidden"" name=""qid"" value=""\d*""/>";
-        private static string[] DownLoad(HttpHelper http, ref HttpResult result, string cookie, string title) {
+        private static string[] DownLoad(HttpHelper http, ref HttpResult result, string cookie, string title,bool isCn) {
             string[] sReturn = null;
             HttpItem item = new HttpItem() {
                 URL = "http://apps.webofknowledge.com/WOS_GeneralSearch.do",//URL     必需项    
@@ -122,7 +122,7 @@ namespace Quotes {
                 index = index.Substring(0, index.IndexOf("\""));
                 string tit = str.Substring(str.IndexOf("<value lang_")).Replace("<value lang_id=\"\">", "").Replace("<span class=\"hitHilite\">", "").Replace(@"</span>", "").Replace(@"</value>", "");
 
-                double tmpvalue = Searcher.MatchValue(title, tit);
+                double tmpvalue = Searcher.MatchValue(title, tit, isCn);
                 if (tmpvalue > matchValue) {
                     matchValue = tmpvalue;
                     matchTitle = tit;

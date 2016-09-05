@@ -33,6 +33,7 @@
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.searcherControl1 = new Quotes.SearcherControl();
             this.excel2Csv1 = new Quotes.Excel2Csv();
+            this.tMP1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -42,7 +43,8 @@
             this.检索ToolStripMenuItem,
             this.设置ToolStripMenuItem,
             this.工具ToolStripMenuItem,
-            this.关于ToolStripMenuItem});
+            this.关于ToolStripMenuItem,
+            this.tMP1ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(984, 25);
@@ -113,6 +115,13 @@
             this.excel2Csv1.TabIndex = 1;
             this.excel2Csv1.Visible = false;
             // 
+            // tMP1ToolStripMenuItem
+            // 
+            this.tMP1ToolStripMenuItem.Name = "tMP1ToolStripMenuItem";
+            this.tMP1ToolStripMenuItem.Size = new System.Drawing.Size(53, 21);
+            this.tMP1ToolStripMenuItem.Text = "TMP1";
+            this.tMP1ToolStripMenuItem.Click += new System.EventHandler(this.tMP1ToolStripMenuItem_Click);
+            // 
             // QuoteSearch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -123,6 +132,8 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(1000, 600);
             this.MinimumSize = new System.Drawing.Size(1000, 600);
             this.Name = "QuoteSearch";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -146,5 +157,6 @@
         private System.Windows.Forms.ToolStripMenuItem 设置ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 引文拆分ToolStripMenuItem;
         private SearcherControl searcherControl1;
+        private System.Windows.Forms.ToolStripMenuItem tMP1ToolStripMenuItem;
     }
 }

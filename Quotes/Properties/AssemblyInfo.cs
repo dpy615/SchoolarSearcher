@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // 特性集控制。更改这些特性值可修改
 // 与程序集关联的信息。
 [assembly: AssemblyTitle("QuoteSearcher")]
-[assembly: AssemblyDescription("论文检索")]
+[assembly: AssemblyDescription("QuoteSearcher")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("No Company")]
 [assembly: AssemblyProduct("Quotes")]
-[assembly: AssemblyCopyright("Copyright © ZhangYan 2016")]
+[assembly: AssemblyCopyright("Copyright © YanZi37Du 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

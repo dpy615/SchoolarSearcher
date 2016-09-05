@@ -22,3 +22,5 @@ F:\Documents\GitHub\SchoolarSearcher\Quotes\obj\Release\Quotes.AboutBox1.resourc
 F:\Documents\GitHub\SchoolarSearcher\Quotes\obj\Release\Quotes.QuoteSearch.resources
 F:\Documents\GitHub\SchoolarSearcher\Quotes\obj\Release\Quotes.SearcherControl.resources
 F:\Documents\GitHub\SchoolarSearcher\Quotes\obj\Release\Quotes.UserControls.SearchWosControl.resources
+F:\Documents\GitHub\SchoolarSearcher\Quotes\obj\Release\Quotes.UserControls.SearchBaiDuControl.resources
+F:\Documents\GitHub\SchoolarSearcher\Quotes\obj\Release\Quotes.csprojResolveAssemblyReference.cache

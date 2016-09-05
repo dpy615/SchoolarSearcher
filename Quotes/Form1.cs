@@ -39,9 +39,9 @@ namespace Quotes {
         init:
             try {
                 Searcher.proxyString = textBox5.Text;
-                Searcher.isCn = checkBox2.Checked;
+                search.isCn = checkBox2.Checked;
                 Searcher.InitProxy();
-            } catch (Exception ex) {
+            } catch (Exception) {
                 goto init;
             }
             new Thread(new ThreadStart(Do)).Start();

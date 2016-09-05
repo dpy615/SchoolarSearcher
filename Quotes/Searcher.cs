@@ -26,7 +26,7 @@ namespace Quotes {
         static string uri_baidu_download = "http://xueshu.baidu.com/u/citation?&callback=noname&sign=###&diversion=6311015199499354113&url=***&t=cite&_=0";
 
         public static int errorCount = 0;
-        static string regex_baidu_mult_sign = @"<a href=\"".*?"" data-click=""{'button_tp':'title'}"" target=""_blank"">";
+        //static string regex_baidu_mult_sign = @"<a href=\"".*?"" data-click=""{'button_tp':'title'}"" target=""_blank"">";
         static string regex_baidu_mult_title = @"<div id=""\d*"" class=""result sc_default_result xpath-log"" srcid=""\d*"" tpl=""se_st_sc_default"" mu="".*?""><div class=""sc_content""><h3 class=""t c_font"">.*?<a href="".*?"" data-click=""{'button_tp':'title'}"" target=""_blank"">.*?</a></h3>";
         //static string regex_baidu_mult_all = @"<div id=""\d*"" class=""result sc_default_result xpath-log"" srcid=""\d*"" tpl=""se_st_sc_default"" mu="".*?""><div class=""sc_content""><h3 class=""t c_font"">.*?<a href="".*?"" data-click=""{'button_tp':'title'}"" target=""_blank"">.*?</a></h3>.*?diversion=""6311015199499354113""></i></div>";
         static string regex_baidu_mult_all = @"<div id=""\d*"" class=""result sc_default_result xpath-log"" srcid=""\d*"" tpl=""se_st_sc_default"" mu="".*?""><div class=""sc_content""><h3 class=""t c_font"">.*?<a href="".*?"" data-click=""{'button_tp':'title'}"" target=""_blank"">.*?</a></h3><div class=""sc_info"">.*?<i class=""iconfont icon-cite"">&#xe600;</i><span>引用";
@@ -57,7 +57,7 @@ namespace Quotes {
         }
         public static string proxy = "";
         public static string GetProxy() {
-            if (proxyIndex == proxyList.Count - 2) {
+            if (proxyIndex >= proxyList.Count - 2) {
                 proxyIndex = 0;
                 InitProxy();
             }
@@ -145,7 +145,7 @@ namespace Quotes {
         /// </summary>
         /// <param name="quote"></param>
         /// <returns></returns>
-        private static string Deal_J(string quote, string[] titles, List<string> list) {
+        private static string Deal_J(string quote, string[] titles, List<string> list,bool isCn) {
             string auther0 = "";
             string auther1 = "";
             string auther2 = "";
@@ -231,14 +231,14 @@ namespace Quotes {
                     }
                 }
             }
-            TakeList(titles, list, auther0, title, type, jour, year, volume, mag, page);
+            TakeList(titles, list, auther0, title, type, jour, year, volume, mag, page, isCn);
 
             return ToResoultStr(quote, auther0, auther1, auther2, title, type, jour, year, volume, mag, page, publisher, place);
 
         }
 
-        private static void TakeList(string[] titles, List<string> list, string auther0, string title, string type, string jour, string year, string volume, string mag, string page) {
-            list.Add(MatchValue(UnicodeToString(title), titles[7]).ToString());
+        private static void TakeList(string[] titles, List<string> list, string auther0, string title, string type, string jour, string year, string volume, string mag, string page,bool isCn) {
+            list.Add(MatchValue(UnicodeToString(title), titles[7], isCn).ToString());
             list.Add(UnicodeToString(type).Equals(titles[2]) ? "1" : "0");
             list.Add(UnicodeToString(auther0.ToLower()).Equals(titles[4].ToLower()) ? "1" : "0");
             list.Add(UnicodeToString(jour).ToLower().Equals(titles[8].ToLower()) ? "1" : "0");
@@ -267,7 +267,7 @@ namespace Quotes {
         /// </summary>
         /// <param name="quote"></param>
         /// <returns></returns>
-        private static string Deal_M(string quote, string[] titles, List<string> list) {
+        private static string Deal_M(string quote, string[] titles, List<string> list,bool isCn) {
             string auther0 = "";
             string auther1 = "";
             string auther2 = "";
@@ -328,7 +328,7 @@ namespace Quotes {
                 }
 
             }
-            TakeList(titles, list, auther0, title, type, jour, year, volume, mag, page);
+            TakeList(titles, list, auther0, title, type, jour, year, volume, mag, page, isCn);
             return ToResoultStr(quote, auther0, auther1, auther2, title, type, jour, year, volume, mag, page, publisher, place);
 
         }
@@ -340,7 +340,7 @@ namespace Quotes {
         /// </summary>
         /// <param name="quote"></param>
         /// <returns></returns>
-        private static string Deal_C(string quote, string[] titles, List<string> list) {
+        private static string Deal_C(string quote, string[] titles, List<string> list,bool isCn) {
             string auther0 = "";
             string auther1 = "";
             string auther2 = "";
@@ -399,7 +399,7 @@ namespace Quotes {
                 }
             }
 
-            TakeList(titles, list, auther0, title, type, jour, year, volume, mag, page);
+            TakeList(titles, list, auther0, title, type, jour, year, volume, mag, page, isCn);
             return ToResoultStr(quote, auther0, auther1, auther2, title, type, jour, year, volume, mag, page, publisher, place);
 
         }
@@ -454,21 +454,21 @@ namespace Quotes {
             }
             sw_error.WriteLine(str);
             sw.WriteLine(str);
-            while (!string.IsNullOrEmpty(str = sr.ReadLine())) {
+            while (run&&!string.IsNullOrEmpty(str = sr.ReadLine())) {
                 if (count >= startCount) {
                     string[] titles = Regex.Split(str, "\",\"");
                     errorCount = 0;
                     if (!string.IsNullOrEmpty(titles[7])) {
                     start:
                         try {
-                            string[] v = GetUriAndSign(titles, proxy);
+                            string[] v = GetUriAndSign(titles, proxy, isCn);
                             //string[] v = GetUriAndSign(title, "");
                             string toWrite = str + ",";
                             List<string> list = new List<string>();
                             if (v.Length == 4) {
-                                toWrite += GetQuote(titles, v[0], v[1], proxy, false, list) + "," + "\"" + v[2] + "\"" + "," + "\"" + v[3] + "\"" + "," + "\"" + list[0] + "\"" + "," + "\"" + list[1] + "\"" + "," + "\"" + list[2] + "\"" + "," + "\"" + list[3] + "\"" + "," + "\"" + list[4] + "\"" + "," + "\"" + list[5] + "\"" + "," + "\"" + list[6] + "\"" + "," + "\"" + list[7] + "\"" + "," + "\"" + list[8] + "\"";
+                                toWrite += GetQuote(titles, v[0], v[1], proxy, false, list, isCn) + "," + "\"" + v[2] + "\"" + "," + "\"" + v[3] + "\"" + "," + "\"" + list[0] + "\"" + "," + "\"" + list[1] + "\"" + "," + "\"" + list[2] + "\"" + "," + "\"" + list[3] + "\"" + "," + "\"" + list[4] + "\"" + "," + "\"" + list[5] + "\"" + "," + "\"" + list[6] + "\"" + "," + "\"" + list[7] + "\"" + "," + "\"" + list[8] + "\"";
                             } else {
-                                toWrite += GetQuote(titles, v[0], v[1], proxy, true, list) + "," + "\"" + "" + "\"" + "," + "\"" + "" + "\"" + "," + "\"" + list[0] + "\"" + "," + "\"" + list[1] + "\"" + "," + "\"" + list[2] + "\"" + "," + "\"" + list[3] + "\"" + "," + "\"" + list[4] + "\"" + "," + "\"" + list[5] + "\"" + "," + "\"" + list[6] + "\"" + "," + "\"" + list[7] + "\"" + "," + "\"" + list[8] + "\"";
+                                toWrite += GetQuote(titles, v[0], v[1], proxy, true, list, isCn) + "," + "\"" + "" + "\"" + "," + "\"" + "" + "\"" + "," + "\"" + list[0] + "\"" + "," + "\"" + list[1] + "\"" + "," + "\"" + list[2] + "\"" + "," + "\"" + list[3] + "\"" + "," + "\"" + list[4] + "\"" + "," + "\"" + list[5] + "\"" + "," + "\"" + list[6] + "\"" + "," + "\"" + list[7] + "\"" + "," + "\"" + list[8] + "\"";
                             }
                             sw.WriteLine(toWrite);
                             sw.Flush();
@@ -492,6 +492,9 @@ namespace Quotes {
             sr.Close();
             sw.Close();
             sw_error.Close();
+            if (!run) {
+                throw new Exception("error");
+            }
         }
 
         private static void ChangePorxyIP() {
@@ -509,7 +512,7 @@ namespace Quotes {
             return reg.Replace(str, delegate(Match m) { return ((char)Convert.ToInt32(m.Groups[1].Value, 16)).ToString(); });
         }
 
-        public static string[] GetUriAndSign(string[] titles, string proxy) {
+        public static string[] GetUriAndSign(string[] titles, string proxy,bool isCn) {
             string title = titles[7];
             string[] strs = new string[2];
 
@@ -520,7 +523,7 @@ namespace Quotes {
             }
             string http = Regex.Match(data, regex_baidu_http).ToString();
             if (string.IsNullOrEmpty(http)) {
-                return GetUriAndSignMult(data, title, proxy);
+                return GetUriAndSignMult(data, title, proxy, isCn);
             }
             http = http.Substring(http.IndexOf('\"') + 1, http.LastIndexOf('\"') - http.IndexOf('\"') - 1);
 
@@ -530,7 +533,7 @@ namespace Quotes {
             strs[1] = sign;
             return strs;
         }
-        public static string[] GetUriAndSignMult(string data, string title, string proxy) {
+        public static string[] GetUriAndSignMult(string data, string title, string proxy,bool isCn) {
             string[] strs = new string[4];
 
             var matchs = Regex.Matches(data, regex_baidu_mult_all);
@@ -547,7 +550,7 @@ namespace Quotes {
                     string matchStr = Regex.Match(matchAll, regex_baidu_mult_title).ToString().Replace("</em>", "").Replace("<em>", "");
                     matchStr = matchStr.Substring(0, matchStr.LastIndexOf("</a>"));
                     string tmpTitle = matchStr.Substring(matchStr.LastIndexOf(@"ank"">") + 5);
-                    double tmp = MatchValue(title, tmpTitle);
+                    double tmp = MatchValue(title, tmpTitle, isCn);
                     if (tmp > matchValue) {
 
 
@@ -586,7 +589,7 @@ namespace Quotes {
             return data;
         }
 
-        public static string GetQuote(string[] titles, string http, string sign, string proxy, bool url, List<string> list) {
+        public static string GetQuote(string[] titles, string http, string sign, string proxy, bool url, List<string> list,bool isCn) {
 
             string str = "";
             string qhttp = "";
@@ -607,7 +610,7 @@ namespace Quotes {
                 throw new Exception("NET:Download");
             }
             //string[] datas = data.Replace("\n", "").Split('\r');
-            string sreturn = DealData(data, titles, list).Replace("\\\"", "\"\"");
+            string sreturn = DealData(data, titles, list, isCn).Replace("\\\"", "\"\"");
             return sreturn;
 
         }
@@ -616,7 +619,7 @@ namespace Quotes {
             return http.Replace("%25", "%").Replace("%3A", ":").Replace("%2F", "/");
         }
 
-        public static string DealData(string data, string[] titles, List<string> list) {
+        public static string DealData(string data, string[] titles, List<string> list,bool isCn) {
 
             string[] datas = Regex.Split(data, "\",\"");
             string quote = "";
@@ -630,13 +633,13 @@ namespace Quotes {
 
             string type = quote.Substring(quote.IndexOf("[") + 1, quote.IndexOf("]") - quote.IndexOf("[") - 1).Trim();
             if (type.Trim().ToUpper() == "J") {
-                return Deal_J(quote, titles, list);
+                return Deal_J(quote, titles, list, isCn);
             } else if (type.Trim().ToUpper() == "M") {
-                return Deal_M(quote, titles, list);
+                return Deal_M(quote, titles, list, isCn);
             } else if (type.Trim().ToUpper() == "C") {
-                return Deal_C(quote, titles, list);
+                return Deal_C(quote, titles, list, isCn);
             } else {
-                return Deal_J(quote, titles, list);
+                return Deal_J(quote, titles, list, isCn);
             }
         }
 
@@ -680,13 +683,13 @@ namespace Quotes {
         /// <param name="str1"></param>
         /// <param name="str2"></param>
         /// <returns></returns>
-        public static double MatchValue(string str1_src, string str2_src) {
+        public static double MatchValue(string str1_src, string str2_src,bool isCn) {
             double matchValue = 0;
             string str1 = DealStringForMatch(str1_src);
             string str2 = DealStringForMatch(str2_src);
 
-            List<string> strArray1 = ToList(str1);
-            List<string> strArray2 = ToList(str2);
+            List<string> strArray1 = ToList(str1,isCn);
+            List<string> strArray2 = ToList(str2, isCn);
 
             foreach (var item in strArray1) {
                 if (strArray2.Contains(item)) {
@@ -696,8 +699,8 @@ namespace Quotes {
                 }
             }
 
-            strArray1 = ToList(str1);
-            strArray2 = ToList(str2);
+            strArray1 = ToList(str1, isCn);
+            strArray2 = ToList(str2, isCn);
             foreach (var item in strArray2) {
                 if (strArray1.Contains(item)) {
                     strArray1.Remove(item);
@@ -706,8 +709,8 @@ namespace Quotes {
                 }
             }
 
-            strArray1 = ToList(str1);
-            strArray2 = ToList(str2);
+            strArray1 = ToList(str1, isCn);
+            strArray2 = ToList(str2, isCn);
             matchValue = matchValue / (strArray1.Count + strArray2.Count);
 
             return Math.Round(matchValue, 2);
@@ -720,9 +723,9 @@ namespace Quotes {
             return str;
         }
 
-        private static List<string> ToList(string str1) {
+        private static List<string> ToList(string str1,bool isCn) {
             List<string> lReturn;
-            if (Searcher.isCn) {
+            if (isCn) {
                 char[] chars = UnicodeToString(str1).ToCharArray();
                 lReturn = new List<string>();
                 for (int i = 0; i < chars.Length; i++) {
@@ -742,7 +745,7 @@ namespace Quotes {
 
 
 
-        public static bool isCn { get; set; }
+        public bool isCn { get; set; }
         public bool run = true;
 
         internal void DoSearchWOS(string fileName, string saveName) {
@@ -772,7 +775,7 @@ namespace Quotes {
                         //start:
                         try {
                             List<string> list = new List<string>();
-                            string v = GetValuesWOS(titles, list, sw_wosData);
+                            string v = GetValuesWOS(titles, list, sw_wosData, isCn);
                             str += "," + v;
                             foreach (var item in list) {
                                 str += "," + "\"" + item + "\"";
@@ -803,7 +806,7 @@ namespace Quotes {
             }
         }
 
-        private static string GetValuesWOS(string[] titles, List<string> list, StreamWriter sw) {
+        private static string GetValuesWOS(string[] titles, List<string> list, StreamWriter sw,bool isCn) {
             string auther0 = "";
             string auther1 = "";
             string auther2 = "";
@@ -819,7 +822,7 @@ namespace Quotes {
             string place = "";
 
 
-            string[] values = WosSearcher.Search(titles[7]);
+            string[] values = WosSearcher.Search(titles[7], isCn);
             string[] authors = values[1].Split(';');
             auther0 = WosAuthToUcasAuth(authors[0]);
             if (authors.Length > 1) {
@@ -854,7 +857,7 @@ namespace Quotes {
             sw.WriteLine(values[values.Length - 3]);
             sw.Flush();
             //,\"修正后source\",\"修正后place\",\"修正后publisher\",\"作者4\",
-            TakeList(titles, list, auther0, title, type, jour, year, volume, mag, page);
+            TakeList(titles, list, auther0, title, type, jour, year, volume, mag, page, isCn);
             return ToResoultStr("", auther0, auther1, auther2, title, type, jour, year, volume, mag, page, publisher, place)
                 + ",\"" + values[13] + "\""
                 + ",\"" + values[54] + "\""

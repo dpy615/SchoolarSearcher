@@ -31,7 +31,15 @@ namespace Quotes {
             for (int i = 0; i < SearcherControl.searcherList.Count; i++) {
                 SearcherControl.searcherList[i].Close() ;
             }
+
+            for (int i = 0; i < SearcherControl.searcherBaiduList.Count; i++) {
+                SearcherControl.searcherBaiduList[i].Close();
+            }
             
+        }
+
+        private void tMP1ToolStripMenuItem_Click(object sender, EventArgs e) {
+
         }
     }
 }

@@ -82,6 +82,12 @@
       <DependentUpon>QuoteSearch.cs</DependentUpon>
     </Compile>
     <Compile Include="Searcher.cs" />
+    <Compile Include="UserControls\SearchBaiduControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserControls\SearchBaiduControl.Designer.cs">
+      <DependentUpon>SearchBaiduControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\SearchWosControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -113,6 +119,9 @@
     </Compile>
     <EmbeddedResource Include="Forms\QuoteSearch.resx">
       <DependentUpon>QuoteSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserControls\SearchBaiduControl.resx">
+      <DependentUpon>SearchBaiduControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UserControls\SearchWosControl.resx">
       <DependentUpon>SearchWosControl.cs</DependentUpon>

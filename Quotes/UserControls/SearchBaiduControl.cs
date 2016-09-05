@@ -10,14 +10,13 @@ using System.Threading;
 using System.IO;
 
 namespace Quotes.UserControls {
-    public partial class SearchWosControl : UserControl {
-        public SearchWosControl() {
+    public partial class SearchBaiDuControl : UserControl {
+        public SearchBaiDuControl() {
             InitializeComponent();
             CheckForIllegalCrossThreadCalls = false;
         }
         bool run = false;
-        Thread thread;
-        Searcher searcher;
+        Searcher searcher = new Searcher();
         string saveFileName;
         private void button3_Click(object sender, EventArgs e) {
             try {
@@ -25,14 +24,14 @@ namespace Quotes.UserControls {
                 searcher.run = false;
             } catch (Exception) {
             }
-            if (SearcherControl.searcherList.Contains(this)) {
-                int index = SearcherControl.searcherList.IndexOf(this);
-                for (int i = index; i < SearcherControl.searcherList.Count; i++) {
-                    SearcherControl.searcherList[i].Location = new Point(SearcherControl.searcherList[i].Location.X, SearcherControl.searcherList[i].Location.Y - 36);
+            if (SearcherControl.searcherBaiduList.Contains(this)) {
+                int index = SearcherControl.searcherBaiduList.IndexOf(this);
+                for (int i = index; i < SearcherControl.searcherBaiduList.Count; i++) {
+                    SearcherControl.searcherBaiduList[i].Location = new Point(SearcherControl.searcherBaiduList[i].Location.X, SearcherControl.searcherBaiduList[i].Location.Y - 36);
                 }
-                SearcherControl.searcherList.Remove(this);
+                SearcherControl.searcherBaiduList.Remove(this);
             }
-            SearchWosControl_ControlRemoved(null, null);
+            SearchBaiduControl_ControlRemoved(null, null);
             this.Dispose();
         }
 
@@ -45,23 +44,27 @@ namespace Quotes.UserControls {
         }
 
         private void button2_Click(object sender, EventArgs e) {
-            thread = new Thread(new ThreadStart(DoWOS));
-            thread.Start();
+            Searcher.proxyString = Config.proxyString;
+            searcher.isCn = checkBox1.Checked;
+            new Thread(new ThreadStart(Do)).Start();
             button2.Enabled = false;
             run = true;
             new Thread(new ThreadStart(Time)).Start();
+
         }
 
-        private void DoWOS() {
+        private void Do() {
             try {
-                searcher = new Searcher();
-                searcher.DoSearchWOS(textBox1.Text, saveFileName);
-                MessageBox.Show("完成\r\n" + textBox1.Text);
-            } catch (ThreadAbortException) {
+                //int.TryParse(textBox4.Text.ToString(), out search.startCount);
+                Searcher.proxy = Searcher.GetProxy();
+                searcher.DoSearchBaiDu(textBox1.Text, saveFileName);
+                MessageBox.Show("完成");
             } catch (Exception e) {
-                if (e.Message != "error") MessageBox.Show(e.Message);
-                button2.Enabled = true;
+                if (e.Message != "error")
+                    MessageBox.Show(e.ToString());
             }
+
+            button3.Enabled = true;
 
         }
 
@@ -69,7 +72,7 @@ namespace Quotes.UserControls {
             while (run) {
                 try {
                     label1.Text = "完成计数：" + searcher.count;
-                    //label2.Text = "代理IP：" + Searcher.proxy;
+                    label2.Text = "代理IP：" + Searcher.proxy;
                     Thread.Sleep(1000);
                 } catch (Exception) {
                 }
@@ -81,7 +84,7 @@ namespace Quotes.UserControls {
             System.Diagnostics.Process.Start("explorer.exe", Path.GetDirectoryName(saveFileName));
         }
 
-        private void SearchWosControl_ControlRemoved(object sender, ControlEventArgs e) {
+        private void SearchBaiduControl_ControlRemoved(object sender, ControlEventArgs e) {
             run = false;
             if (searcher != null) {
                 searcher.run = false;

@@ -11,6 +11,7 @@ using Quotes.UserControls;
 namespace Quotes {
     public partial class SearcherControl : UserControl {
         public static List<SearchWosControl> searcherList = new List<SearchWosControl>();
+        public static List<SearchBaiDuControl> searcherBaiduList = new List<SearchBaiDuControl>();
         public SearcherControl() {
             InitializeComponent();
             searcherList.Add(searchWosControl1);
@@ -37,6 +38,25 @@ namespace Quotes {
             swc.Visible = true;
             this.Refresh();
             searcherList.Add(swc);
+        }
+
+        private void button1_Click(object sender, EventArgs e) {
+            if (searcherBaiduList.Count > 11) {
+                MessageBox.Show("最多只允许开启12个任务");
+                return;
+            }
+            SearchBaiDuControl swc = new SearchBaiDuControl();
+            Point fre = new Point(38, 39);
+            if (searcherBaiduList.Count > 0) {
+                fre = searcherBaiduList[searcherBaiduList.Count - 1].Location;
+                fre = new Point(fre.X, fre.Y + 36);
+            }
+            //swc.SetBounds(fre.X, fre.Y + swc.Height, 868, 38);
+            this.panel2.Controls.Add(swc);
+            swc.Location = fre;
+            swc.Visible = true;
+            this.Refresh();
+            searcherBaiduList.Add(swc);
         }
     }
 }
