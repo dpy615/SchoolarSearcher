@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Quotes", "Quotes\Quotes.csproj", "{9347F4C6-EF9C-4801-897F-0BD405F72355}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExcelToCsv", "ExcelToCsv\ExcelToCsv.csproj", "{722875D7-38C8-4F4B-BF40-D04BE670AB86}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WosSearch", "WosSearch\WosSearch.csproj", "{EFC60EF0-5592-47F7-97D2-B26E77493586}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WosNumberSearch", "WosNumberSearch\WosNumberSearch.csproj", "{6D556BA4-0609-417B-BA07-FB4E9E36B72F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{EFC60EF0-5592-47F7-97D2-B26E77493586}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFC60EF0-5592-47F7-97D2-B26E77493586}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFC60EF0-5592-47F7-97D2-B26E77493586}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D556BA4-0609-417B-BA07-FB4E9E36B72F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D556BA4-0609-417B-BA07-FB4E9E36B72F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D556BA4-0609-417B-BA07-FB4E9E36B72F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D556BA4-0609-417B-BA07-FB4E9E36B72F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
