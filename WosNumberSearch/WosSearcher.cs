@@ -11,11 +11,11 @@ namespace WosNumberSearch {
         static HttpHelper http;
         static HttpResult result;
         static string cookie;
-        public static string[] Search(string title ,bool isCn) {
-            return DownLoad(http, ref result, cookie, title, isCn);
+        public static Dictionary<string, string> Search(string title, int count) {
+            return DownLoad(http, ref result, cookie, title, false, count);
         }
 
-        public  static void InitHttp() {
+        public static void InitHttp() {
             http = new HttpHelper();
             HttpItem item = new HttpItem() {
                 URL = "http://apps.webofknowledge.com/",//URL     必需项    
@@ -48,7 +48,7 @@ namespace WosNumberSearch {
         public static string reg_title = @"doc=\d{0,3}""><value lang_id="""">.*?</value>";
         public static string reg_rurl = "<input type=\"hidden\" id=\"rurl\" name=\"rurl\" value=\".*?\" />";
         public static string reg_qid = @"<input type=""hidden"" name=""qid"" value=""\d*""/>";
-        private static string[] DownLoad(HttpHelper http, ref HttpResult result, string cookie, string title,bool isCn) {
+        private static Dictionary<string, string> DownLoad(HttpHelper http, ref HttpResult result, string cookie, string title, bool isCn, int count) {
             string[] sReturn = null;
             HttpItem item = new HttpItem() {
                 URL = "http://apps.webofknowledge.com/WOS_GeneralSearch.do",//URL     必需项    
@@ -73,10 +73,89 @@ namespace WosNumberSearch {
             result = http.GetHtml(item);
             MoveTmp(http, ref result, cookie);
 
+            string url = item.URL;
+            var tmpUrl = Regex.Match(result.Html, reg_rurl).ToString();
+            string rurl = tmpUrl.Substring(tmpUrl.IndexOf("http"), tmpUrl.LastIndexOf("\"") - tmpUrl.IndexOf("http"));
+            var tqid = Regex.Match(result.Html, reg_qid).ToString();
+            tqid = tqid.Substring(tqid.IndexOf("value"));
+            tqid = tqid.Substring(tqid.IndexOf("\"") + 1);
+            tqid = tqid.Substring(0, tqid.IndexOf("\""));
 
-            sReturn = new string[1];
-            sReturn[0] = result.Html;
-            return sReturn;
+
+            item = new HttpItem() {
+                URL = "http://apps.webofknowledge.com/summary.do?product=WOS&parentProduct=WOS&search_mode=GeneralSearch&qid=" + tqid + "&SID=" + sID + "&page=1&action=changePageSize&pageSize=50",//URL     必需项    
+                Method = "GET",//URL     可选项 默认为Get   
+                IsToLower = false,//得到的HTML代码是否转成小写     可选项默认转小写   
+                Cookie = cookie,//字符串Cookie     可选项   
+                Referer = url,//来源URL     可选项   
+                Timeout = 100000,//连接超时时间     可选项默认为100000    
+                ReadWriteTimeout = 30000,//写入Post数据超时时间     可选项默认为30000   
+                UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36",//用户的浏览器类型，版本，操作系统     可选项有默认值   
+                //UserAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko",//用户的浏览器类型，版本，操作系统     可选项有默认值   
+                ContentType = "application/x-www-form-urlencoded",//返回类型    可选项有默认值   
+                Allowautoredirect = false,//是否根据301跳转     可选项   
+                //CerPath = "d:\123.cer",//证书绝对路径     可选项不需要证书时可以不写这个参数   
+                //Connectionlimit = 1024,//最大连接数     可选项 默认为1024    
+                ProxyIp = "",//代理服务器ID     可选项 不需要代理 时可以不设置这三个参数 
+                //ProxyPwd = "123456",//代理服务器密码     可选项    
+                //ProxyUserName = "administrator",//代理服务器账户名     可选项   
+                ResultType = ResultType.String,
+                Host = "apps.webofknowledge.com",
+                Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
+            };
+            item.Header.Add("Origin", "http://apps.webofknowledge.com");
+
+            result = http.GetHtml(item);
+            MoveTmp(http, ref result, cookie);
+
+
+            item = new HttpItem() {
+                URL = "http://apps.webofknowledge.com/OutboundService.do?action=go&&",//URL     必需项    
+                Method = "POST",//URL     可选项 默认为Get   
+                IsToLower = false,//得到的HTML代码是否转成小写     可选项默认转小写   
+                Cookie = cookie,//字符串Cookie     可选项   
+                Referer = url,//来源URL     可选项   
+                Postdata = "selectedIds=&displayCitedRefs=true&displayTimesCited=true&displayUsageInfo=true&viewType=summary&product=WOS&rurl=" + rurl + "&mark_id=WOS&colName=WOS&search_mode=GeneralSearch&locale=zh_CN&view_name=WOS-summary&sortBy=PY.D%3BLD.D%3BSO.A%3BVL.D%3BPG.A%3BAU.A&mode=OpenOutputService&qid=" + tqid + "&SID=" + sID + "&format=saveToFile&filters=PMID+USAGEIND+AUTHORSIDENTIFIERS+ACCESSION_NUM+FUNDING+SUBJECT_CATEGORY+JCR_CATEGORY+LANG+IDS+PAGEC+SABBR+CITREFC+ISSN+PUBINFO+KEYWORDS+CITTIMES+ADDRS+CONFERENCE_SPONSORS+DOCTYPE+CITREF+ABSTRACT+CONFERENCE_INFO+SOURCE+TITLE+AUTHORS++&mark_to=" + count + "&mark_from=" + 1 + "&queryNatural=%3Cb%3E%E4%B8%BB%E9%A2%98%3A%3C%2Fb%3E+%28" + title + "%29&count_new_items_marked=0&use_two_ets=false&IncitesEntitled=yes&value%28record_select_type%29=range&markFrom=" + 1 + "&markTo=" + count + "&fields_selection=PMID+USAGEIND+AUTHORSIDENTIFIERS+ACCESSION_NUM+FUNDING+SUBJECT_CATEGORY+JCR_CATEGORY+LANG+IDS+PAGEC+SABBR+CITREFC+ISSN+PUBINFO+KEYWORDS+CITTIMES+ADDRS+CONFERENCE_SPONSORS+DOCTYPE+CITREF+ABSTRACT+CONFERENCE_INFO+SOURCE+TITLE+AUTHORS++&save_options=tabWinUTF8",
+                Timeout = 100000,//连接超时时间     可选项默认为100000    
+                ReadWriteTimeout = 30000,//写入Post数据超时时间     可选项默认为30000   
+                UserAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/45.0.2454.101 Safari/537.36",//用户的浏览器类型，版本，操作系统     可选项有默认值   
+                //UserAgent = "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko",//用户的浏览器类型，版本，操作系统     可选项有默认值   
+                ContentType = "application/x-www-form-urlencoded",//返回类型    可选项有默认值   
+                Allowautoredirect = false,//是否根据301跳转     可选项   
+                //CerPath = "d:\123.cer",//证书绝对路径     可选项不需要证书时可以不写这个参数   
+                //Connectionlimit = 1024,//最大连接数     可选项 默认为1024    
+                ProxyIp = "",//代理服务器ID     可选项 不需要代理 时可以不设置这三个参数 
+                //ProxyPwd = "123456",//代理服务器密码     可选项    
+                //ProxyUserName = "administrator",//代理服务器账户名     可选项   
+                ResultType = ResultType.String,
+                Host = "apps.webofknowledge.com",
+                Accept = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
+            };
+
+            item.Header.Add("Origin", "http://apps.webofknowledge.com");
+
+            result = http.GetHtml(item);
+            MoveTmp(http, ref result, cookie);
+
+
+
+            string res = result.Html;
+            string[] txts = res.Replace("\n", "").Split('\r');
+            Dictionary<string, string> dicReturn = new Dictionary<string, string>();
+            for (int index = 1; index < txts.Length; index++) {
+                if (string.IsNullOrEmpty(txts[index])) continue;
+                string[] resArr = txts[index].Split('\t');
+
+                if (!dicReturn.ContainsKey(resArr[60]))
+                    dicReturn.Add(resArr[60], resArr[31]);
+            }
+            //string[] resArr = res.Replace("\n", "").Split('\r')[1].Split('\t');
+            //sReturn = new string[resArr.Length + 3];
+            //Array.Copy(resArr, sReturn, resArr.Length);
+
+            //sReturn = new string[1];
+            //sReturn[0] = result.Html;
+            return dicReturn;
         }
 
         private static void MoveTmp(HttpHelper http, ref HttpResult result, string cookie) {

@@ -6,3 +6,10 @@ F:\Documents\GitHub\SchoolarSearcher\WosNumberSearch\obj\Release\WosNumberSearch
 F:\Documents\GitHub\SchoolarSearcher\WosNumberSearch\obj\Release\WosNumberSearch.exe
 F:\Documents\GitHub\SchoolarSearcher\WosNumberSearch\obj\Release\WosNumberSearch.pdb
 F:\Documents\GitHub\SchoolarSearcher\WosNumberSearch\obj\Release\WosNumberSearch.csprojResolveAssemblyReference.cache
+E:\git\SchoolarSearcher\WosNumberSearch\bin\Release\WosNumberSearch.exe.config
+E:\git\SchoolarSearcher\WosNumberSearch\obj\Release\WosNumberSearch.exe
+E:\git\SchoolarSearcher\WosNumberSearch\obj\Release\WosNumberSearch.pdb
+E:\git\SchoolarSearcher\WosNumberSearch\bin\Release\WosNumberSearch.exe
+E:\git\SchoolarSearcher\WosNumberSearch\bin\Release\WosNumberSearch.pdb
+E:\git\SchoolarSearcher\WosNumberSearch\obj\Release\WosNumberSearch.Properties.Resources.resources
+E:\git\SchoolarSearcher\WosNumberSearch\obj\Release\WosNumberSearch.csproj.GenerateResource.Cache

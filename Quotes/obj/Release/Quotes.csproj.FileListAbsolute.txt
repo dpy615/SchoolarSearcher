@@ -24,3 +24,7 @@ F:\Documents\GitHub\SchoolarSearcher\Quotes\obj\Release\Quotes.SearcherControl.r
 F:\Documents\GitHub\SchoolarSearcher\Quotes\obj\Release\Quotes.UserControls.SearchWosControl.resources
 F:\Documents\GitHub\SchoolarSearcher\Quotes\obj\Release\Quotes.UserControls.SearchBaiDuControl.resources
 F:\Documents\GitHub\SchoolarSearcher\Quotes\obj\Release\Quotes.csprojResolveAssemblyReference.cache
+E:\git\SchoolarSearcher\Quotes\obj\Release\Quotes.csprojResolveAssemblyReference.cache
+E:\git\SchoolarSearcher\Quotes\obj\Release\Quotes.SearcherControl.resources
+E:\git\SchoolarSearcher\Quotes\obj\Release\Quotes.UserControls.SearchBaiDuControl.resources
+E:\git\SchoolarSearcher\Quotes\obj\Release\Quotes.UserControls.SearchWosControl.resources
